@@ -87,8 +87,8 @@ export default function Login() {
           >
             ログイン
           </Button>
-          <Link onClick={changeUserShown} style={{ marginTop: "30px" }}>
-            新規作成はこちら
+          <Link onClick={changeUserShown} style={{ marginTop: "30px" }} sx={{ ":hover": { cursor: "pointer" } }}>
+            新規登録はこちら
           </Link>
         </div>
       ) : (
@@ -135,7 +135,7 @@ export default function Login() {
           >
             登録
           </Button>
-          <Link onClick={changeUserShown} style={{ marginTop: "30px" }}>
+          <Link onClick={changeUserShown} style={{ marginTop: "30px" }} sx={{ ":hover": { cursor: "pointer" } }}>
             ログイン画面に戻る
           </Link>
         </div>

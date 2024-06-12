@@ -37,7 +37,7 @@ export function AuthProvider({ children }) {
 
     return (
         <AuthContext.Provider value={{ user, fetchUser }}>
-            {user ? children : user === null ? <Login /> : <div>Loading ...</div>}
+            {user ? children : user === null | undefined ? <Login /> : <div>Loading ...</div>}
         </AuthContext.Provider>
     );
 }
