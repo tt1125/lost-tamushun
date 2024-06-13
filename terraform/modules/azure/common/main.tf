@@ -18,21 +18,6 @@ module "azure_storage" {
   project_name         = var.project_name
 }
 
-module "key_vault" {
-  depends_on          = [module.resource_group]
-  source              = "../key_vault"
-  name                = "${var.project_name}${var.environment}kv"
-  location            = module.resource_group.resource_group_location
-  resource_group_name = module.resource_group.resource_group_name
-}
-
-module "key_vault_secret" {
-  depends_on   = [module.key_vault]
-  source       = "../key_vault_secret"
-  secrets      = var.secrets
-  key_vault_id = module.key_vault.key_vault_id
-}
-
 module "functions" {
   depends_on = [module.resource_group, module.azure_storage, module.key_vault_secret]
   source = "../functions"
@@ -80,22 +65,3 @@ module "static_site" {
   }
 
 }
-
-# module "service_principal" {
-#   depends_on = [module.resource_group]
-#   source = "../service_principal"
-
-#   project_name = var.project_name
-#   environment = var.environment
-#   resource_group_name = module.resource_group.resource_group_name
-# }
-
-# resource "azurerm_key_vault_access_policy" "sp_access_policy" {
-#   depends_on = [module.key_vault]
-#   key_vault_id = module.key_vault.key_vault_id
-
-#   tenant_id    = var.tenant_id
-#   object_id    = var.current_user_id
-
-#   secret_permissions = ["Get"]
-# }

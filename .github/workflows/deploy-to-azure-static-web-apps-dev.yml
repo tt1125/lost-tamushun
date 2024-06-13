@@ -3,11 +3,11 @@ name: Azure Static Web Apps CI/CD - dev
 on:
   push:
     branches:
-      - develop
+      - main
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
-      - develop
+      - main
 
 jobs:
   build_and_deploy_job:
@@ -19,26 +19,6 @@ jobs:
         with:
           submodules: true
           lfs: false
-
-      - uses: Azure/login@v1
-        with:
-          creds: |
-            {
-              "clientId": "${{ secrets.AZURE_CLIENT_ID_DEV }}",
-              "clientSecret": "${{ secrets.AZURE_CLIENT_SECRET_DEV }}",
-              "tenantId": "${{ secrets.AZURE_TENANT_ID }}",
-              "subscriptionId": "${{ secrets.AZURE_SUBSCRIPTION_ID }}",
-              "audience": "api://AzureADTokenExchange"
-            }
-          enable-AzPSSession: false
-          environment: azurecloud
-          allow-no-subscriptions: false
-          auth-type: SERVICE_PRINCIPAL
-      # - uses: Azure/get-keyvault-secrets@v1
-      #   with:
-      #     keyvault: losttamshundevkv
-      #     secrets: ''
-      #   id: myGetSecretAction
 
       - uses: actions/setup-node@v4
         with:
