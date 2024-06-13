@@ -1,0 +1,16 @@
+.DS_Store
+# Terraform .gitignore
+
+**/.terraform/*
+
+*.tfstate
+*.tfstate.*
+
+*.tfvars
+*.tfvars.json
+
+*.tfplan
+*.tfplan.*
+
+.terraformrc
+terraform.rc

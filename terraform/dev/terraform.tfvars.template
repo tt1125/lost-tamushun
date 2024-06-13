@@ -1,0 +1,9 @@
+environment = "dev"
+location    = "eastus"
+
+repo_url = "https://github.com/scla-sagauniv/lost-tamushun"
+branch = "main"
+github_token = "test"
+
+secrets = {
+}
