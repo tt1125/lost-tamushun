@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
 
   return (
     <html >
-      <body style={{ margin: "0" }}>
+      <body style={{ margin: "0", backgroundColor: mainColor }}>
         <ThemeProvider theme={theme}>
           <AuthProvider>
             <Layout>
