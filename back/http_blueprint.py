@@ -48,6 +48,7 @@ def default_template(req: func.HttpRequest) -> func.HttpResponse:
                     "type": "image_url",
                     "image_url": {
                         "url": blob_url,
+                        "detail": "low"
                     },
                     },
                 ],
@@ -55,15 +56,12 @@ def default_template(req: func.HttpRequest) -> func.HttpResponse:
             ],
             max_tokens=300,
             )
-        print(response)
-        imgDescription = response.choices[0].message
-
+        imgDescription = response.choices[0].message.content
         logging.info('Image Description: %s', imgDescription)
 
         # 2. 埋め込みの生成
         embedding_response = client.embeddings.create(input=imgDescription,
         model="text-embedding-ada-002")
-        print(embedding_response)
         embeddings = embedding_response.data[0].embedding
 
         logging.info('Embeddings: %s', embeddings)
