@@ -18,9 +18,16 @@ import PersonIcon from "@mui/icons-material/Person";
 import InfoIcon from "@mui/icons-material/Info";
 import Button from "@mui/material/Button";
 import LogoutIcon from "@mui/icons-material/Logout";
+import FetchUser from "@/fetch/user";
+
+const fetchUser = new FetchUser();
 
 const drawerWidth = 240;
 const name = ["Home", "Create", "Profile", "About"];
+
+const logoutClicked = () => {
+  fetchUser.logout();
+};
 
 const SideBar = () => {
   return (
@@ -69,6 +76,7 @@ const SideBar = () => {
         sx={{
           overflow: "auto",
         }}
+        onClick={logoutClicked}
       >
         <List style={{ marginTop: "450px" }}>
           <ListItem>
