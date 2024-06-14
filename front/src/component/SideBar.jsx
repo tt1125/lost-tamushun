@@ -17,6 +17,7 @@ const drawerWidth = 240;
 
 const SideBar = () => {
     return (
+
         <Drawer
             variant="permanent"
             sx={{
@@ -31,6 +32,7 @@ const SideBar = () => {
             <Toolbar />
             <Box sx={{
                 overflow: "auto", backgloudColor: subColor,
+
             }}>
                 <List>
                     {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (

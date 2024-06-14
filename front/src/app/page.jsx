@@ -11,9 +11,9 @@ export default function Home() {
   };
 
   return (
-    <main>
+    <div>
       lost tamushun home
       <Button onClick={logoutClicked}>ログアウト</Button>
-    </main>
+    </div>
   );
 }

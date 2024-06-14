@@ -6,6 +6,7 @@ import { useState } from "react";
 import Link from "@mui/material/Link";
 import FetchUser from "@/fetch/user";
 import { useRouter } from "next/navigation";
+import { mainColor } from "@/global/global";
 
 export default function Login() {
   const fetchUser = new FetchUser();
@@ -41,11 +42,11 @@ export default function Login() {
   };
 
   return (
-    <main
+    <div
       style={{
         height: "100vh",
         width: "100%",
-        backgroundColor: "gray",
+        backgroundColor: mainColor,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -61,6 +62,7 @@ export default function Login() {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
+            borderRadius: "10px",
           }}
         >
           <h1>ログイン</h1>
@@ -101,6 +103,7 @@ export default function Login() {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
+            borderRadius: "10px",
           }}
         >
           <h1>新規登録</h1>
@@ -140,6 +143,6 @@ export default function Login() {
           </Link>
         </div>
       )}
-    </main>
+    </div>
   );
 }

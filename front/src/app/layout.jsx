@@ -2,7 +2,7 @@
 
 import Layout from "@/component/Layout";
 import { AuthProvider } from "@/context/AuthContext";
-import { ThemeProvider, createTheme } from "@mui/material";
+import { ThemeProvider, Typography, createTheme } from "@mui/material";
 import { mainColor, subColor } from "@/global/global"
 
 export default function RootLayout({ children }) {
@@ -21,11 +21,13 @@ export default function RootLayout({ children }) {
   return (
     <html >
       <body style={{ margin: "0", backgroundColor: mainColor }}>
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={theme} >
           <AuthProvider>
-            <Layout>
-              {children}
-            </Layout>
+            <Typography color="white">
+              <Layout>
+                {children}
+              </Layout>
+            </Typography>
           </AuthProvider>
         </ThemeProvider>
       </body>
