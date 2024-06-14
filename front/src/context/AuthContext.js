@@ -9,6 +9,7 @@ import React, {
 import { auth } from '@/lib/Firebase'
 import FetchUser from '@/fetch/user'
 import Login from '@/component/Login'
+import { dividerClasses } from '@mui/material'
 
 // コンテキストの作成
 const AuthContext = createContext(null);
@@ -37,7 +38,7 @@ export function AuthProvider({ children }) {
 
     return (
         <AuthContext.Provider value={{ user, fetchUser }}>
-            {user ? children : user === null | undefined ? <Login /> : <div>Loading ...</div>}
+            {user ? children : user === null ? <Login /> : <div>loading ...</div>}
         </AuthContext.Provider>
     );
 }
