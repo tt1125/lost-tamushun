@@ -11,6 +11,7 @@ import {
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import React from "react";
+import { subColor } from "@/global/global";
 
 const drawerWidth = 240;
 
@@ -28,7 +29,9 @@ const SideBar = () => {
             }}
         >
             <Toolbar />
-            <Box sx={{ overflow: "auto" }}>
+            <Box sx={{
+                overflow: "auto", backgloudColor: subColor,
+            }}>
                 <List>
                     {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
                         <ListItem key={text} disablePadding>
