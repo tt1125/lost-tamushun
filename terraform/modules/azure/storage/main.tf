@@ -17,5 +17,5 @@ resource "azurerm_storage_container" "file" {
   depends_on = [azurerm_storage_account.sa]
   name                  = "imgs"
   storage_account_name  = azurerm_storage_account.sa.name
-  container_access_type = "private"
+  container_access_type = "blob"
 }
