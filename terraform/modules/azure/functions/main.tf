@@ -14,9 +14,6 @@ resource "azurerm_linux_function_app" "func_app" {
   storage_account_name       = var.storage_account_name
   storage_account_access_key = data.azurerm_storage_account.func_storage.primary_access_key
   site_config {
-    application_stack {
-      node_version = "18"
-    }
   }
 }
 
