@@ -1,12 +1,19 @@
-# Welcome to Cloud Functions for Firebase for Python!
-# To get started, simply uncomment the below code or create your own.
-# Deploy with `firebase deploy`
+import json
+import logging
+import os
+from google.cloud import functions_v1
+from dotenv import load_dotenv
+from app.imgSearch import img_search
 
 from firebase_functions import https_fn
 from firebase_admin import initialize_app , storage , firestore
 
 
-initialize_app()
+# 環境変数の取得
+search_service_endpoint = os.getenv('SEARCH_SERVICE_ENDPOINT')
+search_service_key = os.getenv('SEARCH_SERVICE_KEY')
+search_index_name = os.getenv('SEARCH_INDEX_NAME')
+openai_api_key = os.getenv('OPENAI_API_KEY')
 
 
 @https_fn.on_call()

@@ -1,44 +1,18 @@
-
-
 import json
 import logging
-import os
 from openai import OpenAI
-
 from azure.core.credentials import AzureKeyCredential
 from azure.search.documents import SearchClient
-import azure.functions as func
-from dotenv import load_dotenv
+from google.cloud import functions_v1
 
-load_dotenv()
-
-# 環境変数の取得
-search_service_endpoint = os.getenv('SEARCH_SERVICE_ENDPOINT')
-search_service_key = os.getenv('SEARCH_SERVICE_KEY')
-search_index_name = os.getenv('SEARCH_INDEX_NAME')
-openai_api_key = os.getenv('OPENAI_API_KEY')
-
-# Azure Search クライアントの初期化
-search_client = SearchClient(
-    endpoint=search_service_endpoint,
-    index_name=search_index_name,
-    credential=AzureKeyCredential(search_service_key)
-)
-
-# Blueprint の登録
-bp = func.Blueprint()
-client = OpenAI(api_key=openai_api_key)
-
-@bp.route(route="imgSearch", auth_level=func.AuthLevel.ANONYMOUS)
-def imgSearch(req: func.HttpRequest) -> func.HttpResponse:
+def img_search(request, search_service_endpoint, search_service_key, search_index_name, openai_api_key):
     logging.info('Python HTTP trigger function processed a request.')
 
-    req_messages = req.get_json()
-    prompt = req_messages.get('prompt')
-    # リクエストボディから 最後のチャットのcontent を取得
+    req_json = request.get_json()
+    prompt = req_json.get('prompt')
 
     if not prompt:
-        return func.HttpResponse(
+        return functions_v1.Response(
              "parameter 'prompt' is required.",
              status_code=400
         )
@@ -63,6 +37,8 @@ def imgSearch(req: func.HttpRequest) -> func.HttpResponse:
     """
 
     try:
+        client = OpenAI(api_key=openai_api_key)
+        
         # OpenAIを使用して検索クエリを生成
         openai_response = client.chat.completions.create(model="gpt-4o-2024-05-13",
         messages=[
@@ -73,33 +49,38 @@ def imgSearch(req: func.HttpRequest) -> func.HttpResponse:
         ],
         max_tokens=50)
         logging.info('OpenAI response: %s', openai_response)
-        
 
         answer = openai_response.choices[0].message.content
         logging.info('Generated search query: %s', answer)
         
         if answer != "none":
-          logging.info('Searching for images...')
-          response_message = imgSearchResponse(answer, req_messages)
-          response_message_json = json.dumps(response_message, ensure_ascii=False)
-          return func.HttpResponse(response_message_json, status_code=200)
+            logging.info('Searching for images...')
+            response_message = img_search_response(answer, search_service_endpoint, search_service_key, search_index_name)
+            response_message_json = json.dumps(response_message, ensure_ascii=False)
+            return functions_v1.Response(response_message_json, status_code=200)
           
         else:
-          logging.info('No search query generated.')
-          response_message = {
+            logging.info('No search query generated.')
+            response_message = {
                 "img_url": "",
                 "img_description": "画像が見つかりませんでした。",
-          }
-          logging.info('Response: %s', response_message)
-          response_message_json = json.dumps(response_message, ensure_ascii=False)
-          return func.HttpResponse(response_message_json, status_code=200)
+            }
+            logging.info('Response: %s', response_message)
+            response_message_json = json.dumps(response_message, ensure_ascii=False)
+            return functions_v1.Response(response_message_json, status_code=200)
 
     except Exception as e:
         logging.error('Error: %s', str(e))
-        return func.HttpResponse(f"Error: {str(e)}", status_code=500)
+        return functions_v1.Response(f"Error: {str(e)}", status_code=500)
 
-def imgSearchResponse(answer: str, messages: list):
+def img_search_response(answer: str, search_service_endpoint, search_service_key, search_index_name):
     try:
+        search_client = SearchClient(
+            endpoint=search_service_endpoint,
+            index_name=search_index_name,
+            credential=AzureKeyCredential(search_service_key)
+        )
+
         # Azure Search での検索クエリの作成と実行
         search_results = search_client.search(search_text=answer, top=1)
         logging.info('Search Results: %s', search_results)

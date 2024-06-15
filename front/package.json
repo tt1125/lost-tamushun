@@ -21,6 +21,7 @@
     "@mui/material": "^5.15.19",
     "firebase": "^10.12.2",
     "next": "14.2.3",
+    "notistack": "^3.0.1",
     "react": "^18",
     "react-dom": "^18"
   },
