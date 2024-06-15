@@ -15,7 +15,7 @@ import { dividerClasses } from '@mui/material'
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(undefined);
 
     const fetchUser = new FetchUser();
 
@@ -36,9 +36,11 @@ export function AuthProvider({ children }) {
         setUser(userInfo);
     };
 
+    console.log(user);
+
     return (
         <AuthContext.Provider value={{ user, fetchUser }}>
-            {user ? children : user === null ? <Login /> : <div>loading ...</div>}
+            {user ? children : user === null? <Login /> : children}
         </AuthContext.Provider>
     );
 }

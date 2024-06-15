@@ -1,3 +1,4 @@
+"use client";
 import {
   Box,
   Drawer,
@@ -19,17 +20,20 @@ import InfoIcon from "@mui/icons-material/Info";
 import Button from "@mui/material/Button";
 import LogoutIcon from "@mui/icons-material/Logout";
 import FetchUser from "@/fetch/user";
+import { useRouter } from "next/navigation";
+import ChatIcon from "@mui/icons-material/Chat";
 
 const fetchUser = new FetchUser();
 
 const drawerWidth = 240;
-const name = ["Home", "Create", "Profile", "About"];
+const name = ["Home", "Create", "Profile", "Chat", "About"];
 
 const logoutClicked = () => {
   fetchUser.logout();
 };
 
 const SideBar = () => {
+  const router = useRouter();
   return (
     <Drawer
       variant="permanent"
@@ -49,27 +53,31 @@ const SideBar = () => {
         }}
       >
         <List>
-          {[<HomeIcon />, <CreateIcon />, <PersonIcon />, <InfoIcon />].map(
-            (text, index) => (
-              <ListItem key={text} style={{ marginTop: "5px" }}>
-                <ListItemButton>
-                  <ListItemIcon>
-                    <div>
-                      <div key={index}>{text}</div>
-                    </div>
-                    <Link
-                      href={name[index]}
-                      underline="none"
-                      color="inherit"
-                      style={{ marginLeft: "50px" }}
-                    >
-                      {name[index]}
-                    </Link>
-                  </ListItemIcon>
-                </ListItemButton>
-              </ListItem>
-            )
-          )}
+          {[
+            <HomeIcon />,
+            <CreateIcon />,
+            <PersonIcon />,
+            <ChatIcon />,
+            <InfoIcon />,
+          ].map((text, index) => (
+            <ListItem key={text} style={{ marginTop: "5px" }}>
+              <ListItemButton>
+                <ListItemIcon>
+                  <div>
+                    <div key={index}>{text}</div>
+                  </div>
+                  <Link
+                    onClick={() => router.push("/" + name[index].toLowerCase())}
+                    underline="none"
+                    color="inherit"
+                    style={{ marginLeft: "50px" }}
+                  >
+                    {name[index]}
+                  </Link>
+                </ListItemIcon>
+              </ListItemButton>
+            </ListItem>
+          ))}
         </List>
       </Box>
       <Box
@@ -78,7 +86,7 @@ const SideBar = () => {
         }}
         onClick={logoutClicked}
       >
-        <List style={{ marginTop: "450px" }}>
+        <List style={{ marginTop: "380px" }}>
           <ListItem>
             <ListItemButton>
               <LogoutIcon style={{ color: "inherit" }} />
