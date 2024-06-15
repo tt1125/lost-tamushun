@@ -29,7 +29,7 @@ export function AuthProvider({ children }) {
             }
         });
         return () => unsubscribe();
-    }, []);
+    }, [fetchUser]);
 
     const getUser = async () => {
         const userInfo = await fetchUser.fetchUser(user?.uid ?? '');
@@ -40,7 +40,7 @@ export function AuthProvider({ children }) {
 
     return (
         <AuthContext.Provider value={{ user, fetchUser }}>
-            {user ? children : user === null? <Login /> : children}
+            {user ? children : user === null ? <Login /> : children}
         </AuthContext.Provider>
     );
 }

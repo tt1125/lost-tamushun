@@ -34,6 +34,7 @@ const logoutClicked = () => {
 
 const SideBar = () => {
   const router = useRouter();
+
   return (
     <Drawer
       variant="permanent"
@@ -59,12 +60,12 @@ const SideBar = () => {
             <PersonIcon />,
             <ChatIcon />,
             <InfoIcon />,
-          ].map((text, index) => (
-            <ListItem key={text} style={{ marginTop: "5px" }}>
+          ].map((icon, index) => (
+            <ListItem key={index} style={{ marginTop: "5px" }}>
               <ListItemButton>
                 <ListItemIcon>
                   <div>
-                    <div key={index}>{text}</div>
+                    <div>{icon}</div>
                   </div>
                   <Link
                     onClick={() => router.push("/" + name[index].toLowerCase())}
@@ -104,7 +105,9 @@ const SideBar = () => {
         </List>
       </Box>
     </Drawer>
-  );
-};
+  )
+}
 
 export default SideBar;
+
+
