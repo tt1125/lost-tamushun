@@ -27,7 +27,7 @@ import Icon from "./icon";
 const fetchUser = new FetchUser();
 
 const drawerWidth = 240;
-const name = ["Home", "Create", "Profile", "Search", "About"];
+const name = ["Home", "Create", "Profile", "Chat", "About"];
 
 const logoutClicked = () => {
   fetchUser.logout();
@@ -54,15 +54,8 @@ const SideBar = () => {
           overflow: "auto",
         }}
       >
-        <div
-          onClick={() => {
-            router.push("/profile");
-          }}
-        >
-          <Icon></Icon>
-        </div>
-
-        <List style={{ marginTop: "20px" }}>
+        <Icon onClick={() => router.push("/profile")} />
+        <List>
           {[
             <HomeIcon />,
             <CreateIcon />,
@@ -71,20 +64,19 @@ const SideBar = () => {
             <InfoIcon />,
           ].map((text, index) => (
             <ListItem key={text} style={{ marginTop: "10px" }}>
-              <ListItemButton
-                onClick={() => {
-                  if (name[index] === "Home") {
-                    router.push("/");
-                  } else {
-                    router.push("/" + name[index].toLowerCase());
-                  }
-                }}
-              >
+              <ListItemButton>
                 <ListItemIcon>
                   <div>
                     <div key={index}>{text}</div>
                   </div>
                   <Link
+                    onClick={() => {
+                      if (name[index] === "Home") {
+                        router.push("/");
+                      } else {
+                        router.push("/" + name[index].toLowerCase());
+                      }
+                    }}
                     underline="none"
                     color="inherit"
                     style={{ marginLeft: "50px" }}
