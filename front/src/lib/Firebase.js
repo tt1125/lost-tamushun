@@ -2,6 +2,7 @@ import { initializeApp, getApps, FirebaseApp } from 'firebase/app'
 import { getFirestore, Firestore, connectFirestoreEmulator } from 'firebase/firestore'
 import { getAuth, Auth, connectAuthEmulator } from 'firebase/auth'
 import { getStorage, FirebaseStorage, connectStorageEmulator } from 'firebase/storage'
+import { getFunctions, connectFunctionsEmulator } from 'firebase/functions'
 
 const firebaseConfig = {
     apiKey: "AIzaSyAAbcoJux_DTnbTEAT6yzGVdFHqKL4HefE",
@@ -13,7 +14,7 @@ const firebaseConfig = {
     measurementId: "G-7H2FL8K9LG"
 };
 
-let firebaseApp , auth , firestore , storage
+let firebaseApp, auth, firestore, storage, functions
 
 // サーバーサイドでレンダリングするときにエラーが起きないようにするための記述
 if (typeof window !== 'undefined' && !getApps().length) {
@@ -21,9 +22,14 @@ if (typeof window !== 'undefined' && !getApps().length) {
     auth = getAuth(firebaseApp)
     firestore = getFirestore(firebaseApp)
     storage = getStorage(firebaseApp)
+    functions = getFunctions(firebaseApp)
+}
 
-
-
+if (process.env.NODE_ENV == "development") {
+    connectAuthEmulator(auth, 'http://localhost:9099')
+    connectStorageEmulator(storage, 'localhost', 9199)
+    connectFunctionsEmulator(functions, 'localhost', 5001)
+    connectFirestoreEmulator(firestore, 'localhost', 8080)
 }
 
 export { firebaseApp, auth, firestore, storage }
