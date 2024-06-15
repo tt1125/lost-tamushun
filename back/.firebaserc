@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "lost-tamushun-63dc1"
-  }
+    "default": "lost-tamushun-63dc1",
+    "lost": "lost-tamushun-63dc1"
+  },
+  "targets": {},
+  "etags": {}
 }
