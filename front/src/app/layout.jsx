@@ -4,6 +4,8 @@ import Layout from "@/component/Layout";
 import { AuthProvider } from "@/context/AuthContext";
 import { ThemeProvider, Typography, createTheme } from "@mui/material";
 import { mainColor, subColor } from "@/global/global";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function RootLayout({ children }) {
   const theme = createTheme({
@@ -16,6 +18,14 @@ export default function RootLayout({ children }) {
       },
     },
   });
+  const router = useRouter();
+
+  useEffect(() => {
+    router.prefetch("/");
+    router.prefetch("/create");
+    router.prefetch("/chat");
+    router.prefetch("/about");
+  }, []);
 
   return (
     <html>
