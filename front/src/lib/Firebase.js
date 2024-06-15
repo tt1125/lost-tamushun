@@ -4,13 +4,13 @@ import { getAuth, Auth, connectAuthEmulator } from 'firebase/auth'
 import { getStorage, FirebaseStorage, connectStorageEmulator } from 'firebase/storage'
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAAbcoJux_DTnbTEAT6yzGVdFHqKL4HefE",
-    authDomain: "lost-tamushun-63dc1.firebaseapp.com",
-    projectId: "lost-tamushun-63dc1",
-    storageBucket: "lost-tamushun-63dc1.appspot.com",
-    messagingSenderId: "173376715412",
-    appId: "1:173376715412:web:db2f6895c0c28408179281",
-    measurementId: "G-7H2FL8K9LG"
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+    measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 };
 
 let firebaseApp , auth , firestore , storage
