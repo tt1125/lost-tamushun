@@ -27,18 +27,19 @@ module "functions" {
   location              = module.resource_group.resource_group_location
   storage_account_name  = module.azure_storage.storage_account_name
   app_service_plan_name = "${var.project_name}${var.environment}functionsasp"
-  
-  # app_settings = {
-  #     "FUNCTIONS_WORKER_RUNTIME" = "node"
-  #     "FUNCTIONS_EXTENSION_VERSION": "~4",
-  #     "WEBSITE_NODE_DEFAULT_VERSION": "18",
-  #     # "NEXT_PUBLIC_DATABASE_URL"                 = module.key_vault_secret.secrets["next-public-database-url"]
-  #     # "NEXT_PUBLIC_AZURE_STORAGE_CONNECTION_STRING" = module.key_vault_secret.secrets["next-public-azure-storage-connection-string"]
-  #     # "NEXT_PUBLIC_PROJECT_ID"                   = module.key_vault_secret.secrets["next-public-project-id"]
-  #     # "NEXT_PUBLIC_FIREBASE_CLIENT_EMAIL"        = module.key_vault_secret.secrets["next-public-firebase-client-email"]
-  #     # "NEXT_PUBLIC_FIREBASE_PRIVATE_KEY"         = module.key_vault_secret.secrets["next-public-firebase-private-key"]
-  # }
 }
+
+
+module "azurerm_search_service"  {
+  depends_on = [module.resource_group]
+  source = "../ai_search"
+
+  resource_group_name = module.resource_group.resource_group_name
+  location            = module.resource_group.resource_group_location
+  search_service_name = "${var.project_name}${var.environment}search"
+  search_index_name   = "${var.project_name}${var.environment}index"
+}
+
 
 # module "static_site" {
 #   depends_on          = [module.key_vault_secret, module.functions]

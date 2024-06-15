@@ -1,14 +1,6 @@
-import azure.functions as func
-import logging
+import azure.functions as func 
+from http_blueprint import bp
 
-app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
+app = func.FunctionApp() 
 
-
-@app.route(route="http_trigger")
-def http_trigger(req: func.HttpRequest) -> func.HttpResponse:
-    logging.info("Python HTTP trigger function processed a request.")
-
-    return func.HttpResponse(
-        "response ok",
-        status_code=200,
-    )
+app.register_functions(bp) 
