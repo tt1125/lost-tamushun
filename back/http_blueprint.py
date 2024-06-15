@@ -43,7 +43,7 @@ def default_template(req: func.HttpRequest) -> func.HttpResponse:
                 {
                 "role": "user",
                 "content": [
-                    {"type": "text", "text": "What’s in this image?"},
+                    {"type": "text", "text": "この画像を説明してください。"},
                     {
                     "type": "image_url",
                     "image_url": {
