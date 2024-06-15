@@ -23,7 +23,7 @@ export default function RootLayout({ children }) {
   useEffect(() => {
     router.prefetch("/");
     router.prefetch("/create");
-    router.prefetch("/chat");
+    router.prefetch("/search");
     router.prefetch("/about");
   }, []);
 
