@@ -1,8 +1,10 @@
-import Button from "@mui/material/Button"; // 正しいインポートパス
+import Button from "@mui/material/Button";
+// 正しいインポートパス
 
-const Icon = () => {
+const Icon = ({ onClick }) => {
   return (
     <Button
+      onClick={onClick}
       sx={{
         display: "flex",
         justifyContent: "center", // 中央に配置
@@ -24,6 +26,7 @@ const Icon = () => {
         src="/img.jpg"
         alt=""
         style={{ width: "100%", height: "100%", objectFit: "cover" }}
+        onClick={onClick}
       />
     </Button>
   );
