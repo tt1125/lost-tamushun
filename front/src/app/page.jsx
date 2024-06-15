@@ -24,8 +24,8 @@ export default function Home() {
         flexWrap: "wrap", // 複数行に対応
         justifyContent: "center", // 中央揃え
         alignItems: "center", // アイテムを中央揃え
-        margin: "10px",
-        gap: "50px", // アイテム間の隙間
+        gap: "70px", // アイテム間の隙間
+        overflow: "hidden",
       }}
     >
       {data.map((image, index) => (
