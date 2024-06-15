@@ -1,3 +1,4 @@
+
 import logging
 import os
 import random
@@ -20,15 +21,16 @@ storage_account_name = os.getenv('AZURE_STORAGE_ACCOUNT_NAME')
 # OpenAIのAPIキー設定
 client = OpenAI(api_key=openai_api_key)
 
-def default_template(req: func.HttpRequest) -> func.HttpResponse:
+def imgRegistration(myblob: func.InputStream):
     logging.info('Python HTTP trigger function processed a request.')
+    myblob_name = myblob.name
 
     try:
         if not openai_api_key:
             raise ValueError('OpenAI API key is required.')
 
         # BlobのURL取得
-        blob_url = f"https://{storage_account_name}.blob.core.windows.net/imgs/IMG_4415_Original.jpg"
+        blob_url = f"https://{storage_account_name}.blob.core.windows.net/imgs/{myblob_name}"
         print(blob_url)
         
 
@@ -75,11 +77,11 @@ def default_template(req: func.HttpRequest) -> func.HttpResponse:
 
         documents_to_index = [
             {
-                "id": f"{random_index}",
+                "id": myblob_name,
                 "content": imgDescription,
                 "vector": embeddings,
                 "metaData": {
-                    "title": f"{random_index}",
+                    "title": myblob_name,
                     "url": blob_url,
                 }
             }
@@ -89,15 +91,6 @@ def default_template(req: func.HttpRequest) -> func.HttpResponse:
 
         res = search_client.upload_documents(documents=documents_to_index)
         logging.info('Upload Documents Result: %s', res)
-
+      
     except Exception as e:
         logging.error(e)
-        return func.HttpResponse(
-            "Error occurred: " + str(e),
-            status_code=500
-        )
-
-    return func.HttpResponse(
-        "Processing completed successfully.",
-        status_code=200
-    )
