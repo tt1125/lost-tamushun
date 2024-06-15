@@ -1,0 +1,19 @@
+{
+  "name": "input-img/test.jpg",
+  "bucket": "lost-tamushun-63dc1.appspot.com",
+  "metageneration": 1,
+  "generation": 1718465830468,
+  "contentType": "image/jpeg",
+  "storageClass": "STANDARD",
+  "contentDisposition": "inline",
+  "downloadTokens": [
+    "92d0989f-bc9b-4b1a-8d8f-af93107b40b2"
+  ],
+  "etag": "DEgzmfa+aDqNvH85IGmy7QUlrNU",
+  "customMetadata": {},
+  "timeCreated": "2024-06-15T15:37:10.468Z",
+  "updated": "2024-06-15T15:37:10.468Z",
+  "size": 843470,
+  "md5Hash": "UqnDvTFV/pmCkqMxUGCkfA==",
+  "crc32c": "3883427755"
+}
