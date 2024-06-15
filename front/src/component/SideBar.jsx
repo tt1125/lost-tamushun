@@ -22,6 +22,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import FetchUser from "@/fetch/user";
 import { useRouter } from "next/navigation";
 import ChatIcon from "@mui/icons-material/Chat";
+import Icon from "./icon";
 
 const fetchUser = new FetchUser();
 
@@ -47,12 +48,14 @@ const SideBar = () => {
       }}
     >
       <Toolbar />
+
       <Box
         sx={{
           overflow: "auto",
         }}
       >
-        <List>
+        <Icon onClick={() => router.push("/profile")} />
+        <List style={{ marginTop: "20px" }}>
           {[
             <HomeIcon />,
             <CreateIcon />,
@@ -60,14 +63,20 @@ const SideBar = () => {
             <ChatIcon />,
             <InfoIcon />,
           ].map((text, index) => (
-            <ListItem key={text} style={{ marginTop: "5px" }}>
+            <ListItem key={text} style={{ marginTop: "10px" }}>
               <ListItemButton>
                 <ListItemIcon>
                   <div>
                     <div key={index}>{text}</div>
                   </div>
                   <Link
-                    onClick={() => router.push("/" + name[index].toLowerCase())}
+                    onClick={() => {
+                      if (name[index] === "Home") {
+                        router.push("/");
+                      } else {
+                        router.push("/" + name[index].toLowerCase());
+                      }
+                    }}
                     underline="none"
                     color="inherit"
                     style={{ marginLeft: "50px" }}
@@ -84,11 +93,10 @@ const SideBar = () => {
         sx={{
           overflow: "auto",
         }}
-        onClick={logoutClicked}
       >
-        <List style={{ marginTop: "380px" }}>
+        <List style={{ marginTop: "250px" }}>
           <ListItem>
-            <ListItemButton>
+            <ListItemButton onClick={logoutClicked}>
               <LogoutIcon style={{ color: "inherit" }} />
               <Link
                 underline="none"
