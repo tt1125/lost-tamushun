@@ -1,3 +1,5 @@
+
+
 import json
 import logging
 import os
@@ -32,7 +34,7 @@ def imgSearch(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
 
     req_messages = req.get_json()
-    prompt = req_messages[-1].get('content')
+    prompt = req_messages.get('prompt')
     # リクエストボディから 最後のチャットのcontent を取得
 
     if not prompt:
@@ -50,7 +52,7 @@ def imgSearch(req: func.HttpRequest) -> func.HttpResponse:
 
       ### 例1
       prompt: ピンクの写真を探してください。
-      ピンク色 写真
+      ピンク色
 
       ### 例2
       prompt: Hackzハッカソンとは何ですか。
@@ -79,20 +81,18 @@ def imgSearch(req: func.HttpRequest) -> func.HttpResponse:
         if answer != "none":
           logging.info('Searching for images...')
           response_message = imgSearchResponse(answer, req_messages)
+          response_message_json = json.dumps(response_message, ensure_ascii=False)
+          return func.HttpResponse(response_message_json, status_code=200)
           
         else:
           logging.info('No search query generated.')
-          response_message = normalResponse(req_messages)
-
-        logging.info('Response message: %s', response_message)
-        
-        # リストをJSON形式に変換してレスポンスとして返す
-        response_message_json = json.dumps(response_message, ensure_ascii=False)
-        
-        logging.info('Response message JSON: %s', response_message_json)
-
-        return func.HttpResponse(response_message_json, status_code=200)
-        # return func.HttpResponse(img_url, status_code=200)
+          response_message = {
+                "img_url": "",
+                "img_description": "画像が見つかりませんでした。",
+          }
+          logging.info('Response: %s', response_message)
+          response_message_json = json.dumps(response_message, ensure_ascii=False)
+          return func.HttpResponse(response_message_json, status_code=200)
 
     except Exception as e:
         logging.error('Error: %s', str(e))
@@ -112,46 +112,15 @@ def imgSearchResponse(answer: str, messages: list):
             img_description = result['content']
             break
         
-        logging.info('Image URL: %s', img_url)
-
         if img_url is None:
-            logging.info('No images found.')
-            return None
-
-        response_answer = {
-            "role": "assistant",
-            "content": [
-                {"type": "text", "text": "検索結果はこちらです。"},
-                {
-                    "type": "image_url",
-                    "image_url": {
-                        "url": img_url,
-                        "detail": "low"
-                    },
-                },
-                {"type": "text", "text": img_description}
-            ]
+            img_url = ""
+            img_description = "画像が見つかりませんでした。"
+        
+        return {
+            "img_url": img_url,
+            "img_description": img_description,
         }
-        logging.info('Answer: %s', response_answer)
-
-        # チャット形式のレスポンスを作成
-        messages.append(response_answer)
-        return messages
 
     except Exception as e:
         logging.error('Error: %s', str(e))
         return None
-
-    
-      
-# 通常の回答を返す関数
-def normalResponse(messages: list):
-    opneai_response = client.chat.completions.create(
-        model="gpt-4o-2024-05-13",
-        messages=messages,
-        max_tokens=300,
-    )
-    logging.info('OpenAI response----------: %s', opneai_response)
-    
-    response_message = opneai_response
-    return response_message
