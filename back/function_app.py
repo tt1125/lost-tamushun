@@ -1,10 +1,14 @@
-import azure.functions as func 
-from http_blueprint import bp
-from imgSearch import bp as img_bp
-from imgRegistration import bp as img
+import azure.functions as func
+import logging
 
-app = func.FunctionApp() 
+app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
 
-app.register_functions(bp)
-app.register_functions(img_bp) 
-app.register_functions(img)
+
+@app.route(route="http_trigger")
+def http_trigger(req: func.HttpRequest) -> func.HttpResponse:
+    logging.info("Python HTTP trigger function processed a request.")
+
+    return func.HttpResponse(
+        "response ok",
+        status_code=200,
+    )
