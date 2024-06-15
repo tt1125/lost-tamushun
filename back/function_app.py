@@ -9,9 +9,3 @@ def http_trigger(req: func.HttpRequest) -> func.HttpResponse:
     print("http_triggerhogehoge")
     return default_template(req)
     
-@app.route(route="imgSearch")
-def http_trigger2(req: func.HttpRequest) -> func.HttpResponse:
-    return imgSearch(req)
-    
-
-    
