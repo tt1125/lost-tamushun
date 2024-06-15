@@ -29,6 +29,7 @@ search_client = SearchClient(
 
 client = OpenAI(api_key=openai_api_key)
 
+@app.function_name("imgSearch")
 @app.route(route="imgSearch")
 def imgSearch(req: func.HttpRequest) -> func.HttpResponse:
       logging.info('Python HTTP trigger function processed a request.')
@@ -126,7 +127,7 @@ def imgSearchResponse(answer: str):
         return None
 
 
-
+@app.function_name("blob_trigger")
 @app.blob_trigger(arg_name="myblob", path="imgs",
                                connection="AzureWebJobsStorage") 
 def imgRegistration(myblob: func.InputStream):
