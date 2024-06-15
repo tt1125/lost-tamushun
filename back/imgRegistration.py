@@ -21,11 +21,6 @@ storage_account_name = os.getenv('AZURE_STORAGE_ACCOUNT_NAME')
 # OpenAIのAPIキー設定
 client = OpenAI(api_key=openai_api_key)
 
-bp = func.Blueprint()
-
-
-@bp.blob_trigger(arg_name="myblob", path="imgs",
-                               connection="AzureWebJobsStorage") 
 def imgRegistration(myblob: func.InputStream):
     logging.info('Python HTTP trigger function processed a request.')
     myblob_name = myblob.name
