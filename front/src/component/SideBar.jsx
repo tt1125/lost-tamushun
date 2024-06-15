@@ -27,7 +27,7 @@ import Icon from "./icon";
 const fetchUser = new FetchUser();
 
 const drawerWidth = 240;
-const name = ["Home", "Create", "Profile", "Chat", "About"];
+const name = ["Home", "Create", "Profile", "Search", "About"];
 
 const logoutClicked = () => {
   fetchUser.logout();
