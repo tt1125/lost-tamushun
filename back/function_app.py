@@ -13,8 +13,5 @@ def http_trigger(req: func.HttpRequest) -> func.HttpResponse:
 def http_trigger2(req: func.HttpRequest) -> func.HttpResponse:
     return imgSearch(req)
     
-@app.blob_trigger(arg_name="myblob", path="imgs",
-                               connection="AzureWebJobsStorage") 
-def blob_trigger(myblob: func.InputStream):
-    return imgRegistration(myblob)
+
     
