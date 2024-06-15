@@ -26,16 +26,16 @@ async def control_net():
         reduce_resolution(d / "test1.jpg", d / "test1_low_res.jpg", 4) # 画像の解像度を下げる
         image = base64.b64encode((d / "test1_low_res.jpg").read_bytes()).decode()
 
-        controlnet = ControlNetModel.Form_Lock
+        controlnet = ControlNetModel.Palette_Swap
         _, mask = await api.low_level.generate_controlnet_mask(controlnet, image)
 
-        model = ImageModel.Anime_Curated
+        model = ImageModel.Anime_Full
 
         preset = ImagePreset.from_default_config(model)
         preset.controlnet_model = controlnet
         preset.controlnet_condition = base64.b64encode(mask).decode()
         preset.controlnet_strength = 1.8
-        preset.steps = 1
+        preset.steps = 5
 
         from prompt_pattern import convert_to_prompt
         prompt_text = convert_to_prompt("disney")#何風にするか
@@ -94,23 +94,27 @@ async def img2img():
     async with API() as api_handler:
         api = api_handler.api
 
-        image = base64.b64encode((d / "test_low_res.jpg").read_bytes()).decode()
+        image = base64.b64encode((d / "test1_low_res.jpg").read_bytes()).decode()
 
-        model = ImageModel.Anime_v3
+        model = ImageModel.Anime_Full
+        # controlnet = ControlNetModel.Scribbler
 
         preset = ImagePreset.from_default_config(model)
         preset.noise = 0.5
         # note that steps = 28, not 50, which mean strength needs to be adjusted accordingly
-        preset.strength = 0.9
+        preset.strength = 1.7
         preset.image = image
-        preset.steps = 12
+        preset.steps = 3
+        # preset.controlnet_model = controlnet
 
-        prompt_text = convert_to_prompt("harry_potter")#何風にするか
+
+        prompt_text = convert_to_prompt("disney")#何風にするか
         additional_text = translate_2en_text("彼は手にカメラを持ち、美しい風景を撮影しています。")#以下に追加の指示文(日本語)を追加
         full_prompt_text = prompt_text + additional_text
 
         async for _, img in api.high_level.generate_image(
-            full_prompt_text,
+            full_prompt_text
+            ,
             model,
             preset,
             ImageGenerationType.IMG2IMG,
@@ -118,7 +122,6 @@ async def img2img():
             (d / "image_with_img2img.png").write_bytes(img)
 
 if __name__ == "__main__":
-    # asyncio.run(img2img())
-    asyncio.run(control_net())
-
+    asyncio.run(img2img())
+    # asyncio.run(control_net())
 
