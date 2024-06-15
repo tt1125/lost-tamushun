@@ -1,13 +1,13 @@
-import { Image, UploadFile } from "@mui/icons-material";
+import { Image } from "@mui/icons-material";
 import { Button, Typography } from "@mui/material";
 
-export default function SetImg(file, disabled, handleFileChange) {
+export default function SetImg({ file, disabled, handleFileChange }) {
   return (
     <div className="w-full">
       <Button
         variant="outlined"
         component="label"
-        // disabled={disabled}
+        disabled={disabled}
         sx={{
           minHeight: "200px",
           width: "700px",

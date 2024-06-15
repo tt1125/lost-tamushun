@@ -1,26 +1,52 @@
 "use client";
-import React from "react";
-import { TextField } from "@mui/material";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import { useState } from "react";
+import React, { useState } from "react";
+import {
+  TextField,
+  Button,
+  Box,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select,
+} from "@mui/material";
 import SetImg from "@/component/SetImg";
+import { enqueueSnackbar } from "notistack";
+import Upload from "@/fetch/upload";
 
-export default function create() {
-  const [age, setAge] = useState("");
+export default function Create() {
+  const [option, setOption] = useState("");
   const [uploadImg, setUploadImg] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState(null); // アップロードされた画像のURLを保存するステート
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
+  const handleOptionChange = (event) => {
+    setOption(event.target.value);
   };
 
   const handleFileChange = (event) => {
     setUploadImg(event.target.files[0]);
+  };
+
+  console.log("setUploadImg", uploadImg);
+
+  const handleSubmit = async () => {
+    console.log("uploadImg", uploadImg);
+    if (!uploadImg) {
+      enqueueSnackbar("画像を選択してください", { variant: "error" });
+      return;
+    }
+
+    setLoading(true);
+    const uploader = new Upload();
+    try {
+      const url = await uploader.uploadImg(uploadImg);
+      setImageUrl(url);
+      enqueueSnackbar("画像がアップロードされました", { variant: "success" });
+    } catch (error) {
+      enqueueSnackbar("画像のアップロードに失敗しました", { variant: "error" });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -38,14 +64,6 @@ export default function create() {
         disabled={loading}
         handleFileChange={handleFileChange}
       />
-      <TextField
-        id="outlined-multiline-static"
-        label="Multiline"
-        multiline
-        rows={4}
-        defaultValue="Default Value"
-        style={{ width: "500px", margin: "20px 0" }} // marginを追加して間隔を設定
-      />
       <div
         style={{
           display: "flex", // 変更: inline-BLOCKからflexへ
@@ -55,13 +73,13 @@ export default function create() {
       >
         <Box>
           <FormControl style={{ width: "200px", marginTop: "10px" }}>
-            <InputLabel id="demo-simple-select-label">Age</InputLabel>
+            <InputLabel id="demo-simple-select-label">Option</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={age}
-              label="Age"
-              onChange={handleChange}
+              value={option}
+              label="Option"
+              onChange={handleOptionChange}
             >
               <MenuItem value={10}>Ten</MenuItem>
               <MenuItem value={20}>Twenty</MenuItem>
@@ -75,9 +93,16 @@ export default function create() {
             width: "200px",
             marginTop: "10px",
           }}
+          onClick={handleSubmit}
+          disabled={loading}
         >
           送信
         </Button>
+        {imageUrl && (
+          <Box mt={4}>
+            <img src={imageUrl} alt="Uploaded" style={{ width: "100%" }} />
+          </Box>
+        )}
       </div>
     </div>
   );
