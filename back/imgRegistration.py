@@ -1,4 +1,4 @@
-imgRegistration = func.Blueprint()
+
 import logging
 import os
 import random
@@ -24,7 +24,7 @@ client = OpenAI(api_key=openai_api_key)
 bp = func.Blueprint()
 
 
-@imgRegistration.blob_trigger(arg_name="imgRegistration", path="imgs",
+@bp.blob_trigger(arg_name="myblob", path="imgs",
                                connection="AzureWebJobsStorage") 
 def imgRegistration(myblob: func.InputStream):
     logging.info('Python HTTP trigger function processed a request.')
