@@ -56,7 +56,8 @@ export default function Create() {
         justifyContent: "center",
         alignItems: "center",
         minHeight: "100vh",
-        flexDirection: "column", // 追加: コンテンツを縦に並べる
+        flexDirection: "column",
+        // 追加: コンテンツを縦に並べる
       }}
     >
       <SetImg
@@ -68,11 +69,12 @@ export default function Create() {
         style={{
           display: "flex", // 変更: inline-BLOCKからflexへ
           flexDirection: "column", // 追加: コンテンツを縦に並べる
-          alignItems: "center", // 追加: 水平方向の中央揃え
+          alignItems: "center",
+          margin: "30px", // 追加: 水平方向の中央揃え
         }}
       >
         <Box>
-          <FormControl style={{ width: "200px", marginTop: "10px" }}>
+          <FormControl style={{ width: "200px", marginTop: "30px" }}>
             <InputLabel id="demo-simple-select-label">Option</InputLabel>
             <Select
               labelId="demo-simple-select-label"
@@ -91,7 +93,7 @@ export default function Create() {
           style={{
             border: "2px solid black",
             width: "200px",
-            marginTop: "10px",
+            marginTop: "30px",
           }}
           onClick={handleSubmit}
           disabled={loading}
