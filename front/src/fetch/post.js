@@ -1,3 +1,4 @@
+
 import { firestore, functions } from "@/lib/Firebase";
 import {
   collection,
@@ -21,7 +22,7 @@ export default class FetchPost {
       orgImgUrl,
       description,
     });
-  
+
   }
 
   async fetchUserPosts(uid) {

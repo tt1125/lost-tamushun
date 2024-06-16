@@ -3,13 +3,23 @@
 # Deploy with `firebase deploy`
 
 from firebase_functions import https_fn
-from firebase_admin import initialize_app
+from firebase_admin import initialize_app , storage ,firestore
+
+from ai_img.create_img import create_img
 
 initialize_app()
 
 
-@https_fn.on_request()
-def on_request_example(req: https_fn.Request) -> https_fn.Response:
-    selections = req.data["selections"]
+@https_fn.on_call()
+def create(req: https_fn.CallableRequest):
+    selection = req.data["selections"]
     add_prompt = req.data["add_prompt"]
-    return https_fn.Response("Hello world!")
+    file_id = req.data["file_id"]
+
+    # file_id = "test.jpg"
+    # selection = "harry_potter"
+    # add_prompt = "カメラを持った少年が、魔法の世界に迷い込んでしまった。"
+
+    create_img(file_id , selection , add_prompt)
+
+    return https_fn.Response("ok!")
