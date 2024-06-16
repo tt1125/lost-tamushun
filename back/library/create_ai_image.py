@@ -26,7 +26,7 @@ async def control_net():
         reduce_resolution(d / "test1.jpg", d / "test1_low_res.jpg", 4) # 画像の解像度を下げる
         image = base64.b64encode((d / "test1_low_res.jpg").read_bytes()).decode()
 
-        controlnet = ControlNetModel.Palette_Swap
+        controlnet = ControlNetModel.Form_Lock  
         _, mask = await api.low_level.generate_controlnet_mask(controlnet, image)
 
         model = ImageModel.Anime_Full
@@ -35,7 +35,7 @@ async def control_net():
         preset.controlnet_model = controlnet
         preset.controlnet_condition = base64.b64encode(mask).decode()
         preset.controlnet_strength = 1.8
-        preset.steps = 5
+        preset.steps = 3
 
         from prompt_pattern import convert_to_prompt
         prompt_text = convert_to_prompt("disney")#何風にするか
@@ -122,6 +122,6 @@ async def img2img():
             (d / "image_with_img2img.png").write_bytes(img)
 
 if __name__ == "__main__":
-    asyncio.run(img2img())
-    # asyncio.run(control_net())
+    # asyncio.run(img2img())
+    asyncio.run(control_net())
 

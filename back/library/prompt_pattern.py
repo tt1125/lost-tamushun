@@ -27,7 +27,18 @@ def convert_to_prompt(keyword):
             return """A mysterious photo that looks like a scene from ancient Egypt, featuring pyramids, 
             pharaohs, and hieroglyphics.,photorealistic , 4K resolution, High resolution, masterpiece, 
             realistic, highly detailed, cinematic lighting, vibrant colors."""
-        
+        elif keyword == "space":
+            return """A breathtaking photo that looks like a scene from outer space, featuring planets, 
+            stars, and galaxies.,photorealistic , 4K resolution, High resolution, masterpiece, 
+            realistic, highly detailed, cinematic lighting, vibrant colors."""
+        elif keyword == "ghibli":
+            return """A charming photo that looks like a scene from a Studio Ghibli movie, featuring magical 
+            creatures, beautiful landscapes, and heartwarming stories.,photorealistic , 4K resolution, High resolution, 
+            masterpiece, realistic, highly detailed, cinematic lighting, vibrant colors."""
+        elif keyword == "cyberpunk":
+            return """A futuristic photo that looks like a scene from a cyberpunk movie, featuring neon lights, 
+            high-tech gadgets, and futuristic cities.,photorealistic , 4K resolution, High resolution, masterpiece, 
+            realistic, highly detailed, cinematic lighting, vibrant colors."""
         else:
              None
 
