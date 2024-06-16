@@ -3,10 +3,11 @@ import React, { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 
 export default function Home() {
+  // dataを空の配列で初期化
   const [data, setData] = useState([]);
-  const [selectedImage, setSelectedImage] = useState(null);
 
   const fetchData = () => {
+    // 'public' ディレクトリからデータを取得するようにパスを修正
     fetch("/fallbackData.json")
       .then((response) => response.json())
       .then((data) => setData(data));
@@ -16,26 +17,6 @@ export default function Home() {
     fetchData();
   }, []);
 
-  const handleSelectImage = (image) => {
-    setSelectedImage(image);
-  };
-
-  const handleBack = () => {
-    setSelectedImage(null);
-  };
-
-  return (
-    <div>
-      {selectedImage ? (
-        <ImageDetail image={selectedImage} onBack={handleBack} />
-      ) : (
-        <ImageList data={data} onSelect={handleSelectImage} />
-      )}
-    </div>
-  );
-}
-
-const ImageList = ({ data, onSelect }) => {
   return (
     <div>
       <h1 style={{ marginLeft: "520px" }}>Home</h1>
@@ -130,3 +111,4 @@ const ImageDetail = ({ image, onBack }) => {
     </div>
   );
 };
+
