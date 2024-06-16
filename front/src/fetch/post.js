@@ -1,4 +1,4 @@
-import { firestore } from "@/lib/Firebase";
+import { firestore, storage } from "@/lib/Firebase";
 import {
   collection,
   getDocs,
@@ -11,14 +11,17 @@ import {
 } from "firebase/firestore";
 
 export default class FetchPost {
-  async createPost(title, genImgUrl, orgImgUrl, description, uid) {
-    await setDoc(doc(firestore, "post", id), {
+  async createPost(title, genImgUrl, orgImgUrl, description, uid , file) {
+    decRef = await setDoc(doc(firestore, "post", id), {
       uid,
       title,
       genImgUrl,
       orgImgUrl,
       description,
     });
+
+  const id = decRef.id;
+  const storageRef = ref(storage, `org-imgs/${id}`);
   }
 
   async fetchUserPosts(uid) {
