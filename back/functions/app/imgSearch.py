@@ -1,46 +1,48 @@
 import json
 import logging
+import os
 from openai import OpenAI
 from azure.core.credentials import AzureKeyCredential
 from azure.search.documents import SearchClient
+from azure.search.documents.models import VectorizedQuery
 from google.cloud import functions_v1
 
-def img_search(request, search_service_endpoint, search_service_key, search_index_name, openai_api_key):
-    logging.info('Python HTTP trigger function processed a request.')
-
-    req_json = request.get_json()
-    prompt = req_json.get('prompt')
-
+def img_search(prompt: str, search_service_endpoint, search_service_key, search_index_name, openai_api_key ):
+    # OpenAIを使用してベクトルを生成
+    client = OpenAI(api_key=openai_api_key)
     if not prompt:
         return functions_v1.Response(
-             "parameter 'prompt' is required.",
-             status_code=400
+            "parameter 'prompt' is required.",
+            status_code=400
         )
-    
+
     search_query_prompt = """
-      ## 命令文
-      プロンプトが写真の検索に関するものであれば、プロンプトに続くクエリを生成してください。
-      プロンプトが写真検索に関するものでない場合は、"none "とだけ返してください。
+    ## 命令文
+    プロンプトが写真の検索に関するものであれば、プロンプトに続くクエリを生成してください。
+    プロンプトが写真検索に関するものでない場合は、"none "とだけ返してください。
 
-      以下に例を示す
+    以下に例を示す
 
-      ### 例1
-      prompt: ピンクの写真を探してください。
-      ピンク色
+    ### 例1
+    prompt: ピンクの写真を探してください。
+    ピンク色
 
-      ### 例2
-      prompt: Hackzハッカソンとは何ですか。
-      none
+    ### 例2
+    prompt: Hackzハッカソンとは何ですか。
+    none
 
-      ### プロンプト
-      prompt: {prompt}
+    ### プロンプト
+    prompt: {prompt}
     """
-
     try:
-        client = OpenAI(api_key=openai_api_key)
+        search_client = SearchClient(
+            endpoint=search_service_endpoint,
+            index_name=search_index_name,
+            credential=AzureKeyCredential(search_service_key)
+        )
         
         # OpenAIを使用して検索クエリを生成
-        openai_response = client.chat.completions.create(model="gpt-4o-2024-05-13",
+        search_word_res = client.chat.completions.create(model="gpt-4o-2024-05-13",
         messages=[
             {
                 "role": "user",
@@ -48,41 +50,26 @@ def img_search(request, search_service_endpoint, search_service_key, search_inde
             }
         ],
         max_tokens=50)
-        logging.info('OpenAI response: %s', openai_response)
-
-        answer = openai_response.choices[0].message.content
-        logging.info('Generated search query: %s', answer)
+        search_word = search_word_res.choices[0].message.content
+        print('search_word: ', search_word)
         
-        if answer != "none":
-            logging.info('Searching for images...')
-            response_message = img_search_response(answer, search_service_endpoint, search_service_key, search_index_name)
-            response_message_json = json.dumps(response_message, ensure_ascii=False)
-            return functions_v1.Response(response_message_json, status_code=200)
-          
-        else:
-            logging.info('No search query generated.')
-            response_message = {
+        if search_word == "none":
+            return {
                 "img_url": "",
-                "img_description": "画像が見つかりませんでした。",
+                "img_description": "画像の検索に関する質問を入力してください。"
             }
-            logging.info('Response: %s', response_message)
-            response_message_json = json.dumps(response_message, ensure_ascii=False)
-            return functions_v1.Response(response_message_json, status_code=200)
 
-    except Exception as e:
-        logging.error('Error: %s', str(e))
-        return functions_v1.Response(f"Error: {str(e)}", status_code=500)
+        openai_response = client.embeddings.create(input=search_word, model="text-embedding-ada-002")
+        print('openai_response: ', openai_response)
+        vector = openai_response.data[0].embedding
+        vector_query = VectorizedQuery(vector=vector, k_nearest_neighbors=3, fields="vector")
 
-def img_search_response(answer: str, search_service_endpoint, search_service_key, search_index_name):
-    try:
-        search_client = SearchClient(
-            endpoint=search_service_endpoint,
-            index_name=search_index_name,
-            credential=AzureKeyCredential(search_service_key)
+        # Azure Searchでの検索クエリの作成と実行
+        search_results = search_client.search(
+            search_text=search_word, 
+            vector_queries=[vector_query],
+            top=1
         )
-
-        # Azure Search での検索クエリの作成と実行
-        search_results = search_client.search(search_text=answer, top=1)
         logging.info('Search Results: %s', search_results)
 
         # 検索結果の詳細を取得してログに出力
@@ -92,11 +79,11 @@ def img_search_response(answer: str, search_service_endpoint, search_service_key
             img_url = result['metaData']['url']
             img_description = result['content']
             break
-        
+
         if img_url is None:
             img_url = ""
             img_description = "画像が見つかりませんでした。"
-        
+
         return {
             "img_url": img_url,
             "img_description": img_description,
