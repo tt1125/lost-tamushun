@@ -64,12 +64,3 @@ node_modules/
 
 # dotenv environment variables file
 .env
-
-__pycache__
-
-# Virtual Environment
-venv/
-
-.venv
-
-emulator_data
