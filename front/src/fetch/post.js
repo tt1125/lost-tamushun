@@ -1,4 +1,4 @@
-import { firestore } from "@/lib/Firebase";
+import { firestore, functions } from "@/lib/Firebase";
 import {
   collection,
   getDocs,
@@ -10,15 +10,18 @@ import {
   where,
 } from "firebase/firestore";
 
+import {httpsCallable} from "firebase/functions";
+
 export default class FetchPost {
-  async createPost(title, genImgUrl, orgImgUrl, description, uid) {
-    await setDoc(doc(firestore, "post", id), {
+  async createPost(title, genImgUrl, orgImgUrl, description, uid , file) {
+ await setDoc(doc(firestore, "post", id), {
       uid,
       title,
       genImgUrl,
       orgImgUrl,
       description,
     });
+  
   }
 
   async fetchUserPosts(uid) {
