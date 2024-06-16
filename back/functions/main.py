@@ -10,4 +10,6 @@ initialize_app()
 
 @https_fn.on_request()
 def on_request_example(req: https_fn.Request) -> https_fn.Response:
+    selections = req.data["selections"]
+    add_prompt = req.data["add_prompt"]
     return https_fn.Response("Hello world!")
