@@ -2,6 +2,7 @@ import { initializeApp, getApps, FirebaseApp } from 'firebase/app'
 import { getFirestore, Firestore, connectFirestoreEmulator } from 'firebase/firestore'
 import { getAuth, Auth, connectAuthEmulator } from 'firebase/auth'
 import { getStorage, FirebaseStorage, connectStorageEmulator } from 'firebase/storage'
+import { getFunctions } from 'firebase/functions';
 
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -13,7 +14,7 @@ const firebaseConfig = {
     measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 };
 
-let firebaseApp , auth , firestore , storage
+let firebaseApp , auth , firestore , storage , functions
 
 // サーバーサイドでレンダリングするときにエラーが起きないようにするための記述
 if (typeof window !== 'undefined' && !getApps().length) {
@@ -21,9 +22,10 @@ if (typeof window !== 'undefined' && !getApps().length) {
     auth = getAuth(firebaseApp)
     firestore = getFirestore(firebaseApp)
     storage = getStorage(firebaseApp)
+    functions = getFunctions(firebaseApp)
 
 
 
 }
 
-export { firebaseApp, auth, firestore, storage }
+export { firebaseApp, auth, firestore, storage ,functions}

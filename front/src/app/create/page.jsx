@@ -12,8 +12,11 @@ import {
 import SetImg from "@/component/SetImg";
 import { enqueueSnackbar } from "notistack";
 import Upload from "@/fetch/upload";
+import FetchPost from "@/fetch/post";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Create() {
+  const upload = new Upload();
   const [option, setOption] = useState("");
   const [uploadImg, setUploadImg] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -35,6 +38,8 @@ export default function Create() {
       enqueueSnackbar("画像を選択してください", { variant: "error" });
       return;
     }
+    upload.uploadImg(uploadImg , option);
+
 
     setLoading(true);
     const uploader = new Upload();
@@ -56,9 +61,11 @@ export default function Create() {
         justifyContent: "center",
         alignItems: "center",
         minHeight: "100vh",
-        flexDirection: "column", // 追加: コンテンツを縦に並べる
+        flexDirection: "column",
+        // 追加: コンテンツを縦に並べる
       }}
     >
+
       <SetImg
         file={uploadImg}
         disabled={loading}
@@ -68,22 +75,29 @@ export default function Create() {
         style={{
           display: "flex", // 変更: inline-BLOCKからflexへ
           flexDirection: "column", // 追加: コンテンツを縦に並べる
-          alignItems: "center", // 追加: 水平方向の中央揃え
+          alignItems: "center",
+          margin: "30px", // 追加: 水平方向の中央揃え
         }}
       >
         <Box>
-          <FormControl style={{ width: "200px", marginTop: "10px" }}>
+          <FormControl style={{ width: "200px", marginTop: "30px" }}>
             <InputLabel id="demo-simple-select-label">Option</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               value={option}
-              label="Option"
+              label="世界の選択"
               onChange={handleOptionChange}
             >
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
+              <MenuItem value={"harry_potter"}>ハリーポッター</MenuItem>
+              <MenuItem value={"disney"}>ディズニー</MenuItem>
+              <MenuItem value={"gundam"}>ガンダム</MenuItem>
+              <MenuItem value={"pokemon"}>ポケモン</MenuItem>
+              <MenuItem value={"star_wars"}>スターウォーズ</MenuItem>
+              <MenuItem value={"marvel"}>マーベル</MenuItem>
+              <MenuItem value={"egipt"}>エジプト</MenuItem>
+
+              
             </Select>
           </FormControl>
         </Box>
@@ -91,7 +105,7 @@ export default function Create() {
           style={{
             border: "2px solid black",
             width: "200px",
-            marginTop: "10px",
+            marginTop: "30px",
           }}
           onClick={handleSubmit}
           disabled={loading}

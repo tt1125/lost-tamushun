@@ -9,7 +9,7 @@ export default function SetImg({ file, disabled, handleFileChange }) {
         component="label"
         disabled={disabled}
         sx={{
-          minHeight: "200px",
+          minHeight: "400px",
           width: "700px",
           borderRadius: "20px",
           display: "flex",
@@ -25,7 +25,15 @@ export default function SetImg({ file, disabled, handleFileChange }) {
         >
           <div>
             <Image sx={{ fontSize: "100px" }} />
-            <div>画像ファイルを選択</div>
+            {file ? (
+              <div>
+                {file.name}
+                <br />
+                {file.size}
+              </div>
+            ) : (
+              <div>画像ファイルを選択</div>
+            )}
           </div>
         </Typography>
         <input
