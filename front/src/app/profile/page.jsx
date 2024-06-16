@@ -2,6 +2,10 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import Icon from "../../component/Icon";
+import AOS from "aos"; // 追加
+import "aos/dist/aos.css"; // 追加
+
+AOS.init();
 
 export default function profile() {
   const [data, setData] = useState([]);
@@ -39,7 +43,7 @@ export default function profile() {
 const ImageList = ({ data, onSelect }) => {
   return (
     <div>
-      <h1 style={{ marginLeft: "520px" }}>Profile</h1>
+      <h1 style={{ marginLeft: "520px", color: "black" }}>Profile</h1>
       <div style={{ margin: "15px" }}></div>
       <div
         style={{
@@ -54,11 +58,21 @@ const ImageList = ({ data, onSelect }) => {
         {data.map((image, index) => (
           <div key={index}>
             <Button
+              data-aos="fade-in"
+              data-aos-delay="50"
+              data-aos-duration="1000"
               variant="outlined"
               style={{ width: "250px", height: "250px" }}
               onClick={() => onSelect(image)}
             >
-              <img src={image.urls.genImgUrl} />
+              <img
+                style={{
+                  width: "100%", // 画像の幅をボタンの幅に合わせます
+                  height: "100%", // 画像の高さをボタンの高さに合わせます
+                  objectFit: "cover", // 画像を切り取りながらアスペクト比を保持してボタンにフィットさせます
+                }}
+                src={image.urls.genImgUrl}
+              />
             </Button>
           </div>
         ))}
@@ -102,7 +116,7 @@ const ImageDetail = ({ image, onBack }) => {
               height: "400px",
             }}
           />
-          <p>オリジナル画像</p>
+          <p style={{ color: "black" }}>オリジナル画像</p>
         </div>
         <div>
           <img
@@ -113,7 +127,7 @@ const ImageDetail = ({ image, onBack }) => {
               height: "400px",
             }}
           />
-          <p>生成画像</p>
+          <p style={{ color: "black" }}>生成画像</p>
         </div>
         <Button
           onClick={onBack}
@@ -123,6 +137,7 @@ const ImageDetail = ({ image, onBack }) => {
             height: "50px",
             marginLeft: "200px",
             marginRight: "200px",
+            border: "solid",
           }}
         >
           Back
