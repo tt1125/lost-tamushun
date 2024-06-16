@@ -1,67 +1,75 @@
 [
-    {
-      "id": "1",
-      "urls": {
-        "small": "https://via.placeholder.com/150/0000FF/808080?text=Image+1"
-      },
-      "description": "Placeholder Image 1"
+  {
+    "id": "1",
+    "urls": {
+      "orgImgUrl": "https://via.placeholder.com/150/0000FF/808080?text=Image+1",
+      "genImgUrl": "https://via.placeholder.com/150/0000FF/808080?text=Image+1"
     },
-    {
-      "id": "2",
-      "urls": {
-        "small": "https://via.placeholder.com/150/FF0000/FFFFFF?text=Image+2"
-      },
-      "description": "Placeholder Image 2"
+    "description": "Placeholder Image 1"
+  },
+  {
+    "id": "2",
+    "urls": {
+      "orgImgUrl": "https://via.placeholder.com/150/FF0000/FFFFFF?text=Image+2",
+      "genImgUrl": "https://via.placeholder.com/150/FF0000/FFFFFF?text=Image+2"
     },
-    {
-      "id": "3",
-      "urls": {
-        "small": "https://via.placeholder.com/150/00FF00/000000?text=Image+3"
-      },
-      "description": "Placeholder Image 3"
+    "description": "Placeholder Image 2"
+  },
+  {
+    "id": "3",
+    "urls": {
+      "orgImgUrl": "https://via.placeholder.com/150/00FF00/000000?text=Image+3",
+      "genImgUrl": "https://via.placeholder.com/150/00FF00/000000?text=Image+3"
     },
-    {
-      "id": "4",
-      "urls": {
-        "small": "https://via.placeholder.com/150/FFFF00/000000?text=Image+4"
-      },
-      "description": "Placeholder Image 4"
+    "description": "Placeholder Image 3"
+  },
+  {
+    "id": "4",
+    "urls": {
+      "orgImgUrl": "https://via.placeholder.com/150/FFFF00/000000?text=Image+4",
+      "genImgUrl": "https://via.placeholder.com/150/FFFF00/000000?text=Image+4"
     },
-    {
-      "id": "5",
-      "urls": {
-        "small": "https://via.placeholder.com/150/FF00FF/000000?text=Image+5"
-      },
-      "description": "Placeholder Image 5"
+    "description": "Placeholder Image 4"
+  },
+  {
+    "id": "5",
+    "urls": {
+      "orgImgUrl": "https://via.placeholder.com/150/FF00FF/000000?text=Image+5",
+      "genImgUrl": "https://via.placeholder.com/150/FF00FF/000000?text=Image+5"
     },
-    {
-      "id": "6",
-      "urls": {
-        "small": "https://via.placeholder.com/150/00FFFF/000000?text=Image+6"
-      },
-      "description": "Placeholder Image 6"
+    "description": "Placeholder Image 5"
+  },
+  {
+    "id": "6",
+    "urls": {
+      "orgImgUrl": "https://via.placeholder.com/150/00FFFF/000000?text=Image+6",
+      "genImgUrl": "https://via.placeholder.com/150/00FFFF/000000?text=Image+6"
     },
-    {
-      "id": "7",
-      "urls": {
-        "small": "https://via.placeholder.com/150/000000/FFFFFF?text=Image+7"
-      },
-      "description": "Placeholder Image 7"
+    "description": "Placeholder Image 6"
+  },
+  {
+    "id": "7",
+    "urls": {
+      "orgImgUrl": "https://via.placeholder.com/150/000000/FFFFFF?text=Image+7",
+      "genImgUrl": "https://via.placeholder.com/150/000000/FFFFFF?text=Image+7"
     },
-    {
-      "id": "8",
-      "urls": {
-        "small": "https://via.placeholder.com/150/FFFFFF/000000?text=Image+8"
-      },
-      "description": "Placeholder Image 8"
+    "description": "Placeholder Image 7"
+  },
+  {
+    "id": "8",
+    "urls": {
+      "orgImgUrl": "https://via.placeholder.com/150/FFFFFF/000000?text=Image+8",
+      "genImgUrl": "https://via.placeholder.com/150/FFFFFF/000000?text=Image+8"
     },
-    {
-      "id": "9",
-      "urls": {
-        "small": "https://via.placeholder.com/150/123456/654321?text=Image+9"
-      },
-      "description": "Placeholder Image 9"
-    }
-    
-  ]
+    "description": "Placeholder Image 8"
+  },
+  {
+    "id": "9",
+    "urls": {
+      "orgImgUrl": "https://via.placeholder.com/150/123456/654321?text=Image+9",
+      "genImgUrl": "https://via.placeholder.com/150/123456/654321?text=Image+9"
+    },
+    "description": "Placeholder Image 9"
+  }
   
+]
